@@ -1,0 +1,6 @@
+.DS_Store
+
+source/predict_result.csv
+source/siritori.pkl
+source/svc.pkl.cmp
+

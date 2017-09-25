@@ -1,0 +1,6704 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Python入門 〜pandasでデータ分析編〜 &mdash; python_lecture 0.0.1 ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="検索" href="search.html"/>
+    <link rel="top" title="python_lecture 0.0.1 ドキュメント" href="index.html"/>
+        <link rel="prev" title="Python入門 〜基本文法編〜" href="Python01.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> python_lecture
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Python01.html">Python入門 〜基本文法編〜</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python入門 〜pandasでデータ分析編〜</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#TL;DR">TL;DR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Pandasとは">Pandasとは</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Kaggleとは">Kaggleとは</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データ分析のプロセス">データ分析のプロセス</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#本編">本編</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#1.-データの加工">1. データの加工</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#データのロード">データのロード</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#量的データ">量的データ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#可視化">可視化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#質的データ">質的データ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#データ観察からの仮説">データ観察からの仮説</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#相関を見る">相関を見る</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#分布を見る">分布を見る</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#2.予測モデルの作成・学習">2.予測モデルの作成・学習</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#データの整理">データの整理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scikit-learn">scikit-learn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#決定木で予測">決定木で予測</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#決定木の可視化">決定木の可視化</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Random-Forestで予測">Random Forestで予測</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#3.予測モデルの評価">3.予測モデルの評価</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#モデルを良くする">モデルを良くする</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#モデルの保存">モデルの保存</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Kaggleへテストの結果を提出">Kaggleへテストの結果を提出</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#おわりに">おわりに</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ノーフリーランチ定理">ノーフリーランチ定理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#醜いアヒルの子の定理">醜いアヒルの子の定理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#見せかけの回帰">見せかけの回帰</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#テキサスの狙撃兵の誤謬（クラスター錯覚）">テキサスの狙撃兵の誤謬（クラスター錯覚）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ハンマー釘病">ハンマー釘病</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">python_lecture</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Python入門 〜pandasでデータ分析編〜</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Python02.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Python入門-〜pandasでデータ分析編〜">
+<h1>Python入門 〜pandasでデータ分析編〜<a class="headerlink" href="#Python入門-〜pandasでデータ分析編〜" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="TL;DR">
+<h2>TL;DR<a class="headerlink" href="#TL;DR" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">KaggleのTitanicをpandasとscikit-learnでいい感じに．
+春にやったこれとほぼ同じです^^;</div>
+<div class="line"><a class="reference external" href="https://gist.github.com/johshisha/53ed00adabec6447642656a46a72d367">https://gist.github.com/johshisha/53ed00adabec6447642656a46a72d367</a></div>
+</div>
+</div>
+<div class="section" id="Pandasとは">
+<h2>Pandasとは<a class="headerlink" href="#Pandasとは" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line"><img alt="Pandas" src="https://github.com/pandas-dev/pandas/raw/master/doc/logo/pandas_logo.png" />
+もともと統計解析用のR言語で使われていた<strong>data.frame</strong>という表（テーブル)みたいな</div>
+<div class="line">データ形式をPythonに移植したモジュール（ライブラリ）</div>
+<div class="line"><strong>jupyter</strong>と組み合わせるとテーブルの中身を見ながら処理できるので最強</div>
+</div>
+<div class="line-block">
+<div class="line">内部的には<strong>NumPy</strong>というベクトルや行列といった数値計算用のモジュール</div>
+<div class="line">（リストより効率のいい配列みたいな奴）をデータ分析用の機能でラップしたもの</div>
+</div>
+<div class="line-block">
+<div class="line">ただしあんまりにもでかいデータ（数GBオーダー）は苦手</div>
+<div class="line">代替として<strong>Dask</strong>や次世代数値計算ライブラリ<strong>Blaze</strong>を参照</div>
+</div>
+</div>
+<div class="section" id="Kaggleとは">
+<h2>Kaggleとは<a class="headerlink" href="#Kaggleとは" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line"><img alt="Kaggle" src="https://www.kaggle.com/static/images/site-logo.png" /></div>
+<div class="line">データ分析の世界的なコンペティションを行うWebサービス</div>
+<div class="line">ユーザーはお題に沿って最も性能の良いモデルを構築することを目的とする</div>
+<div class="line">賞金が出るお題もある</div>
+</div>
+<p>今回はKaggleのチュートリアルに沿うことでデータ分析入門を目指す</p>
+</div>
+<div class="section" id="データ分析のプロセス">
+<h2>データ分析のプロセス<a class="headerlink" href="#データ分析のプロセス" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="figure" id="id25">
+<img alt="Process" src="https://speakerd.s3.amazonaws.com/presentations/5c63dce1d2494dfc9f068fe1c58eab41/slide_6.jpg" />
+<p class="caption"><span class="caption-text">Process</span></p>
+</div>
+<p><a class="reference external" href="https://speakerdeck.com/ntddk/si-niyukuantiuirusuhefalseqi-ri">死にゆくアンチウイルスへの祈り</a>
+より</p>
+<div class="line-block">
+<div class="line">データ分析は一筋縄では行かないので何段階かに分けて考える</div>
+<div class="line">プログラミングでの大雑把な手順は</div>
+</div>
+<ol class="arabic simple">
+<li>データの加工</li>
+<li>予測モデルの作成・学習</li>
+<li>予測モデルの評価</li>
+</ol>
+<p>の3段階で考えるのはどうでしょう（？）</p>
+</div>
+<div class="section" id="本編">
+<h2>本編<a class="headerlink" href="#本編" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="1.-データの加工">
+<h3>1. データの加工<a class="headerlink" href="#1.-データの加工" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="データのロード">
+<h4>データのロード<a class="headerlink" href="#データのロード" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="line-block">
+<div class="line">今回の対象となるデータは，1912年4月15日に沈没したタイタニック号の乗員乗客名簿．</div>
+<div class="line">女性，子供，1等船室の人々が生存確率が高かったことが知られている．</div>
+<div class="line">Dead or Aliveをデータからより正確に予測することはできるか？</div>
+<div class="line">いわゆる二値分類問題．</div>
+</div>
+<p>※<a class="reference external" href="https://www.datacamp.com/courses/kaggle-python-tutorial-on-machine-learning">A free interactive Machine Learning tutorial in
+Python</a>にインタラクティブなチュートリアルがあります</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_url</span> <span class="o">=</span> <span class="s2">&quot;http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv&quot;</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">train_url</span><span class="p">)</span>
+<span class="n">train_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 12 columns):
+PassengerId    891 non-null int64
+Survived       891 non-null int64
+Pclass         891 non-null int64
+Name           891 non-null object
+Sex            891 non-null object
+Age            714 non-null float64
+SibSp          891 non-null int64
+Parch          891 non-null int64
+Ticket         891 non-null object
+Fare           891 non-null float64
+Cabin          204 non-null object
+Embarked       889 non-null object
+dtypes: float64(2), int64(5), object(5)
+memory usage: 83.6+ KB
+</pre></div></div>
+</div>
+<div class="line-block">
+<div class="line">891人分のデータ（タイタニック号に乗っていた2224人のうちの40%）があるようだが，</div>
+<div class="line">欠損値のある要素（Ageなど）もある</div>
+</div>
+<ul class="simple">
+<li>PassengerID:　乗客ID</li>
+<li>Survived:　　　生存結果 (1: 生存, 0: 死亡)</li>
+<li>Pclass:　　　　客室の等級</li>
+<li>Name:　　　　乗客の名前</li>
+<li>Sex:　　　　　性別</li>
+<li>Age:　　　　　年齢</li>
+<li>SibSp:　　　　乗船している兄弟，配偶者の数</li>
+<li>Parch:　　　　乗船している両親，子供の数</li>
+<li>Ticket:　　　　チケット番号</li>
+<li>Fare:　　　　　乗船料金</li>
+<li>Cabin:　　　　部屋番号</li>
+<li>Embarked:　　　乗船した港　Cherbourg，Queenstown，Southamptonの３種類</li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Moran, Mr. James</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330877</td>
+      <td>8.4583</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>0</td>
+      <td>1</td>
+      <td>McCarthy, Mr. Timothy J</td>
+      <td>male</td>
+      <td>54.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>17463</td>
+      <td>51.8625</td>
+      <td>E46</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Palsson, Master. Gosta Leonard</td>
+      <td>male</td>
+      <td>2.0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>349909</td>
+      <td>21.0750</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)</td>
+      <td>female</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>347742</td>
+      <td>11.1333</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Nasser, Mrs. Nicholas (Adele Achem)</td>
+      <td>female</td>
+      <td>14.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>237736</td>
+      <td>30.0708</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Sandstrom, Miss. Marguerite Rut</td>
+      <td>female</td>
+      <td>4.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>PP 9549</td>
+      <td>16.7000</td>
+      <td>G6</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Bonnell, Miss. Elizabeth</td>
+      <td>female</td>
+      <td>58.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>113783</td>
+      <td>26.5500</td>
+      <td>C103</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Saundercock, Mr. William Henry</td>
+      <td>male</td>
+      <td>20.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>A/5. 2151</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Andersson, Mr. Anders Johan</td>
+      <td>male</td>
+      <td>39.0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>347082</td>
+      <td>31.2750</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Vestrom, Miss. Hulda Amanda Adolfina</td>
+      <td>female</td>
+      <td>14.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>350406</td>
+      <td>7.8542</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Hewlett, Mrs. (Mary D Kingcome)</td>
+      <td>female</td>
+      <td>55.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>248706</td>
+      <td>16.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Rice, Master. Eugene</td>
+      <td>male</td>
+      <td>2.0</td>
+      <td>4</td>
+      <td>1</td>
+      <td>382652</td>
+      <td>29.1250</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Williams, Mr. Charles Eugene</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>244373</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Vander Planke, Mrs. Julius (Emelia Maria Vande...</td>
+      <td>female</td>
+      <td>31.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>345763</td>
+      <td>18.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>20</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Masselmani, Mrs. Fatima</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2649</td>
+      <td>7.2250</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>21</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Fynney, Mr. Joseph J</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>239865</td>
+      <td>26.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>22</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Beesley, Mr. Lawrence</td>
+      <td>male</td>
+      <td>34.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>248698</td>
+      <td>13.0000</td>
+      <td>D56</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>23</td>
+      <td>1</td>
+      <td>3</td>
+      <td>McGowan, Miss. Anna "Annie"</td>
+      <td>female</td>
+      <td>15.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330923</td>
+      <td>8.0292</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>24</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Sloper, Mr. William Thompson</td>
+      <td>male</td>
+      <td>28.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>113788</td>
+      <td>35.5000</td>
+      <td>A6</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>25</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Palsson, Miss. Torborg Danira</td>
+      <td>female</td>
+      <td>8.0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>349909</td>
+      <td>21.0750</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>26</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Asplund, Mrs. Carl Oscar (Selma Augusta Emilia...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>347077</td>
+      <td>31.3875</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>27</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Emir, Mr. Farred Chehab</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2631</td>
+      <td>7.2250</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>28</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Fortune, Mr. Charles Alexander</td>
+      <td>male</td>
+      <td>19.0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>19950</td>
+      <td>263.0000</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>29</td>
+      <td>1</td>
+      <td>3</td>
+      <td>O'Dwyer, Miss. Ellen "Nellie"</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330959</td>
+      <td>7.8792</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>30</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Todoroff, Mr. Lalio</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349216</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>862</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Giles, Mr. Frederick Edward</td>
+      <td>male</td>
+      <td>21.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>28134</td>
+      <td>11.5000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>863</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Swift, Mrs. Frederick Joel (Margaret Welles Ba...</td>
+      <td>female</td>
+      <td>48.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>17466</td>
+      <td>25.9292</td>
+      <td>D17</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>864</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Sage, Miss. Dorothy Edith "Dolly"</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>8</td>
+      <td>2</td>
+      <td>CA. 2343</td>
+      <td>69.5500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>865</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Gill, Mr. John William</td>
+      <td>male</td>
+      <td>24.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>233866</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>866</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Bystrom, Mrs. (Karolina)</td>
+      <td>female</td>
+      <td>42.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>236852</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>867</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Duran y More, Miss. Asuncion</td>
+      <td>female</td>
+      <td>27.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>SC/PARIS 2149</td>
+      <td>13.8583</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>868</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Roebling, Mr. Washington Augustus II</td>
+      <td>male</td>
+      <td>31.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>PC 17590</td>
+      <td>50.4958</td>
+      <td>A24</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>869</td>
+      <td>0</td>
+      <td>3</td>
+      <td>van Melkebeke, Mr. Philemon</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>345777</td>
+      <td>9.5000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>870</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Johnson, Master. Harold Theodor</td>
+      <td>male</td>
+      <td>4.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>347742</td>
+      <td>11.1333</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>871</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Balkic, Mr. Cerin</td>
+      <td>male</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349248</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>872</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Beckwith, Mrs. Richard Leonard (Sallie Monypeny)</td>
+      <td>female</td>
+      <td>47.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>11751</td>
+      <td>52.5542</td>
+      <td>D35</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>873</td>
+      <td>0</td>
+      <td>1</td>
+      <td>Carlsson, Mr. Frans Olof</td>
+      <td>male</td>
+      <td>33.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>695</td>
+      <td>5.0000</td>
+      <td>B51 B53 B55</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>874</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Vander Cruyssen, Mr. Victor</td>
+      <td>male</td>
+      <td>47.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>345765</td>
+      <td>9.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>875</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Abelson, Mrs. Samuel (Hannah Wizosky)</td>
+      <td>female</td>
+      <td>28.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>P/PP 3381</td>
+      <td>24.0000</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>876</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Najib, Miss. Adele Kiamie "Jane"</td>
+      <td>female</td>
+      <td>15.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2667</td>
+      <td>7.2250</td>
+      <td>NaN</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>877</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Gustafsson, Mr. Alfred Ossian</td>
+      <td>male</td>
+      <td>20.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7534</td>
+      <td>9.8458</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>878</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Petroff, Mr. Nedelio</td>
+      <td>male</td>
+      <td>19.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349212</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>879</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Laleff, Mr. Kristo</td>
+      <td>male</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349217</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>880</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Potter, Mrs. Thomas Jr (Lily Alexenia Wilson)</td>
+      <td>female</td>
+      <td>56.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>11767</td>
+      <td>83.1583</td>
+      <td>C50</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>881</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Shelley, Mrs. William (Imanita Parrish Hall)</td>
+      <td>female</td>
+      <td>25.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>230433</td>
+      <td>26.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>882</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Markun, Mr. Johann</td>
+      <td>male</td>
+      <td>33.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>349257</td>
+      <td>7.8958</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>883</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Dahlberg, Miss. Gerda Ulrika</td>
+      <td>female</td>
+      <td>22.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7552</td>
+      <td>10.5167</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>884</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Banfield, Mr. Frederick James</td>
+      <td>male</td>
+      <td>28.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>C.A./SOTON 34068</td>
+      <td>10.5000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>885</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Sutehall, Mr. Henry Jr</td>
+      <td>male</td>
+      <td>25.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>SOTON/OQ 392076</td>
+      <td>7.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>886</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Rice, Mrs. William (Margaret Norton)</td>
+      <td>female</td>
+      <td>39.0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>382652</td>
+      <td>29.1250</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>887</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Montvila, Rev. Juozas</td>
+      <td>male</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>211536</td>
+      <td>13.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>888</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Graham, Miss. Margaret Edith</td>
+      <td>female</td>
+      <td>19.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>112053</td>
+      <td>30.0000</td>
+      <td>B42</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>889</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Johnston, Miss. Catherine Helen "Carrie"</td>
+      <td>female</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>2</td>
+      <td>W./C. 6607</td>
+      <td>23.4500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>890</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Behr, Mr. Karl Howell</td>
+      <td>male</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>111369</td>
+      <td>30.0000</td>
+      <td>C148</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>891</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Dooley, Mr. Patrick</td>
+      <td>male</td>
+      <td>32.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>370376</td>
+      <td>7.7500</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 12 columns</p>
+</div></div>
+</div>
+<div class="line-block">
+<div class="line">行（row）が乗客一人ひとりを表し，列（column）が乗客の性質を表す</div>
+<div class="line">「NaN」と書かれているデータは「データ無し（欠損値）」を表す</div>
+<div class="line">891人分のデータが訓練データとして与えられている</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>太字</strong>の列はindexでpandasが自動的に割り振る番号（この場合は0からスタート）</div>
+<div class="line">基本的には重複のない整数だが，好きなカラムをindexに指定することもでき，使い方いろいろ</div>
+</div>
+</div>
+<div class="section" id="量的データ">
+<h4>量的データ<a class="headerlink" href="#量的データ" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="c1"># train_df.describe()</span>
+<span class="c1"># train_df.describe(percentiles=[.61, .62])</span>
+<span class="c1"># train_df.describe(percentiles=[.75, .8])</span>
+<span class="c1"># train_df.describe(percentiles=[.68, .69])</span>
+<span class="n">train_df</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">percentiles</span><span class="o">=</span><span class="p">[</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="o">.</span><span class="mi">8</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">99</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>891.000000</td>
+      <td>891.000000</td>
+      <td>891.000000</td>
+      <td>714.000000</td>
+      <td>891.000000</td>
+      <td>891.000000</td>
+      <td>891.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>446.000000</td>
+      <td>0.383838</td>
+      <td>2.308642</td>
+      <td>29.699118</td>
+      <td>0.523008</td>
+      <td>0.381594</td>
+      <td>32.204208</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>257.353842</td>
+      <td>0.486592</td>
+      <td>0.836071</td>
+      <td>14.526497</td>
+      <td>1.102743</td>
+      <td>0.806057</td>
+      <td>49.693429</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.420000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>10%</th>
+      <td>90.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>14.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>7.550000</td>
+    </tr>
+    <tr>
+      <th>20%</th>
+      <td>179.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>19.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>7.854200</td>
+    </tr>
+    <tr>
+      <th>30%</th>
+      <td>268.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>22.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>8.050000</td>
+    </tr>
+    <tr>
+      <th>40%</th>
+      <td>357.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>25.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>10.500000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>446.000000</td>
+      <td>0.000000</td>
+      <td>3.000000</td>
+      <td>28.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>14.454200</td>
+    </tr>
+    <tr>
+      <th>60%</th>
+      <td>535.000000</td>
+      <td>0.000000</td>
+      <td>3.000000</td>
+      <td>31.800000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>21.679200</td>
+    </tr>
+    <tr>
+      <th>70%</th>
+      <td>624.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>36.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>27.000000</td>
+    </tr>
+    <tr>
+      <th>80%</th>
+      <td>713.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>41.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>39.687500</td>
+    </tr>
+    <tr>
+      <th>90%</th>
+      <td>802.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>50.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>77.958300</td>
+    </tr>
+    <tr>
+      <th>99%</th>
+      <td>882.100000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>65.870000</td>
+      <td>5.000000</td>
+      <td>4.000000</td>
+      <td>249.006220</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>891.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>80.000000</td>
+      <td>8.000000</td>
+      <td>6.000000</td>
+      <td>512.329200</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>describe()で簡単な統計量（基本・要約・記述統計量）を一覧できる</p>
+<ul class="simple">
+<li>891人中生き残った人のデータは38%ほど</li>
+<li>親や子供と共に乗っていない人が75%くらい</li>
+<li>兄弟や配偶者と共に乗っていない人が70%くらい</li>
+<li>$512も払っている人は1%未満</li>
+<li>65歳以上の人も1%未満</li>
+</ul>
+</div>
+<div class="section" id="可視化">
+<h4>可視化<a class="headerlink" href="#可視化" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>パーセンタイルを折れ線グラフで見てみる</p>
+<div class="line-block">
+<div class="line"><strong>matplotlib</strong>はPythonのグラフ作図ライブラリで最も有名</div>
+<div class="line"><strong>seaborn</strong>はmatplotlibの見た目をナウくする</div>
+<div class="line">% matplotlib inline
+というマジックコマンドで，グラフをセル内に表示できる</div>
+<div class="line">% matplotlib notebook ならインタラクティブな表示が可能</div>
+</div>
+<div class="line-block">
+<div class="line">可視化のツールは他にもたくさんある．</div>
+<div class="line">それぞれ長所短所を見分けて使い分けよう．</div>
+<div class="line"><a class="reference external" href="http://qiita.com/alchemist/items/544d45480ce9c1ca2c16">Pythonの可視化パッケージの使い分け</a></div>
+<div class="line"><a class="reference external" href="http://qiita.com/driller/items/53be86cea3c3201e7e0f">Pythonの可視化ツールはHoloViewsが標準になるかもしれない</a></div>
+<div class="line"><a class="reference external" href="http://qiita.com/inoue0426/items/071c127428112f498421">Google製可視化OSSのFacetsがめっちゃ便利だから使ってみてくれ</a></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="o">%</span> <span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="o">.</span><span class="mi">8</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0.1</th>
+      <td>90.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>14.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.5500</td>
+    </tr>
+    <tr>
+      <th>0.2</th>
+      <td>179.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>19.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.8542</td>
+    </tr>
+    <tr>
+      <th>0.3</th>
+      <td>268.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>22.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0500</td>
+    </tr>
+    <tr>
+      <th>0.4</th>
+      <td>357.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>25.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>10.5000</td>
+    </tr>
+    <tr>
+      <th>0.5</th>
+      <td>446.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>28.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>14.4542</td>
+    </tr>
+    <tr>
+      <th>0.6</th>
+      <td>535.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>31.8</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>21.6792</td>
+    </tr>
+    <tr>
+      <th>0.7</th>
+      <td>624.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>36.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>27.0000</td>
+    </tr>
+    <tr>
+      <th>0.8</th>
+      <td>713.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>41.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>39.6875</td>
+    </tr>
+    <tr>
+      <th>0.9</th>
+      <td>802.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>50.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>77.9583</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[7]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>array([ 0. ,  0.1,  0.2,  0.3,  0.4,  0.5,  0.6,  0.7,  0.8,  0.9])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">001</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;Age&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[8]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x10aa3b358&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Python02_21_1.png" src="_images/Python02_21_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="質的データ">
+<h4>質的データ<a class="headerlink" href="#質的データ" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">object</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Ticket</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>891</td>
+      <td>891</td>
+      <td>891</td>
+      <td>204</td>
+      <td>889</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>891</td>
+      <td>2</td>
+      <td>681</td>
+      <td>147</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>Blackwell, Mr. Stephen Weart</td>
+      <td>male</td>
+      <td>CA. 2343</td>
+      <td>G6</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>1</td>
+      <td>577</td>
+      <td>7</td>
+      <td>4</td>
+      <td>644</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<ul class="simple">
+<li>Nameは一意</li>
+<li>65%が男性</li>
+<li>客室には複数の人が泊まっていたり，一人が複数の客室を使用していたりする</li>
+<li>乗船した港は3種類だがほとんどがS</li>
+<li>Ticketは22%も重複している</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="データ観察からの仮説">
+<h4>データ観察からの仮説<a class="headerlink" href="#データ観察からの仮説" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>参考：<a class="reference external" href="https://www.kaggle.com/startupsci/titanic-data-science-solutions">https://www.kaggle.com/startupsci/titanic-data-science-solutions</a></p>
+<div class="line-block">
+<div class="line">相関</div>
+<div class="line">　どの指標が生死と相関があるのかを知り，モデルのたたき台にする</div>
+</div>
+<p>補完</p>
+<ol class="arabic simple">
+<li>生死と相関のある年齢は補完したい</li>
+<li>Embarkedも補完したいかもしれない</li>
+</ol>
+<p>修正</p>
+<ol class="arabic simple">
+<li>22%も重複しているTicketは分析には不適ではないか</li>
+<li>Cabinは欠損値が多すぎるのでつかえない</li>
+<li>PassengerIdはただの番号</li>
+<li>名前は生死に無関係では</li>
+</ol>
+<p>作成</p>
+<ol class="arabic simple">
+<li>ParchとSibSpを使えば家族数が割り出せるのでは</li>
+<li>名前から敬称を取り出せる</li>
+<li>年齢の連続値より年齢層として扱う方がいいかもしれない</li>
+<li>料金も同様に</li>
+</ol>
+<p>分類</p>
+<ol class="arabic simple">
+<li>女性は生き残る可能性が高いか</li>
+<li>子供は生き残る可能性が高いか</li>
+<li>上位クラスの乗客は生き残る可能性が高いか</li>
+</ol>
+</div>
+<div class="section" id="相関を見る">
+<h4>相関を見る<a class="headerlink" href="#相関を見る" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="line-block">
+<div class="line">※ Pandasのデータ操作はさまざま．</div>
+<div class="line"><a class="reference external" href="http://cocodrips.hateblo.jp/entry/2017/07/30/185430">Pandasを使ったデータ操作の基本</a>などを参考に，適宜「（やりたいこと）
+pandas」で検索．</div>
+<div class="line">バージョン違いでAPIが変わる可能性があるので，なるべく新しい記事を参考にしよう．</div>
+</div>
+<div class="line-block">
+<div class="line"><a class="reference external" href="http://akiyoko.hatenablog.jp/entry/2017/04/03/081630">pandas.DataFrame
+の列の抽出（射影）および行の抽出（選択）方法まとめ</a></div>
+<div class="line"><img alt="DataFrame" src="http://bookdata.readthedocs.io/en/latest/_images/base_01_pandas_5_0.png" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">train_df</span><span class="p">[[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]]))</span>
+<span class="n">train_df</span><span class="p">[[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>female</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>male</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>male</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 1 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">train_df</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]))</span>
+<span class="n">train_df</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;pandas.core.series.Series&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[12]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>0        male
+1      female
+2      female
+3      female
+4        male
+5        male
+6        male
+7        male
+8      female
+9      female
+10     female
+11     female
+12       male
+13       male
+14     female
+15     female
+16       male
+17       male
+18     female
+19     female
+20       male
+21       male
+22     female
+23       male
+24     female
+25     female
+26       male
+27       male
+28     female
+29       male
+        ...
+861      male
+862    female
+863    female
+864      male
+865    female
+866    female
+867      male
+868      male
+869      male
+870      male
+871    female
+872      male
+873      male
+874    female
+875    female
+876      male
+877      male
+878      male
+879    female
+880    female
+881      male
+882    female
+883      male
+884      male
+885    female
+886      male
+887    female
+888    female
+889      male
+890      male
+Name: Sex, Length: 891, dtype: object
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">][</span><span class="n">train_df</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[13]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>0      male
+4      male
+5      male
+6      male
+7      male
+12     male
+13     male
+16     male
+17     male
+20     male
+21     male
+23     male
+26     male
+27     male
+29     male
+30     male
+33     male
+34     male
+35     male
+36     male
+37     male
+42     male
+45     male
+46     male
+48     male
+50     male
+51     male
+54     male
+55     male
+57     male
+       ...
+840    male
+841    male
+843    male
+844    male
+845    male
+846    male
+847    male
+848    male
+850    male
+851    male
+857    male
+859    male
+860    male
+861    male
+864    male
+867    male
+868    male
+869    male
+870    male
+872    male
+873    male
+876    male
+877    male
+878    male
+881    male
+883    male
+884    male
+886    male
+889    male
+890    male
+Name: Sex, Length: 577, dtype: object
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_df</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="s2">&quot;Sex&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[14]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>0      male
+4      male
+5      male
+6      male
+7      male
+12     male
+13     male
+16     male
+17     male
+20     male
+21     male
+23     male
+26     male
+27     male
+29     male
+30     male
+33     male
+34     male
+35     male
+36     male
+37     male
+42     male
+45     male
+46     male
+48     male
+50     male
+51     male
+54     male
+55     male
+57     male
+       ...
+840    male
+841    male
+843    male
+844    male
+845    male
+846    male
+847    male
+848    male
+850    male
+851    male
+857    male
+859    male
+860    male
+861    male
+864    male
+867    male
+868    male
+869    male
+870    male
+872    male
+873    male
+876    male
+877    male
+878    male
+881    male
+883    male
+884    male
+886    male
+889    male
+890    male
+Name: Sex, Length: 577, dtype: object
+</pre></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">相関を見るために質的変数を量的変数に変えておく</div>
+<div class="line">※ pandasの機能（関数）は基本的に非破壊的（＝データ自体は変わらない）．</div>
+<div class="line">　関数の戻り値を変数へ再代入して変更を上書きする．</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df_select</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">train_df_select</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_df_select</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">train_df_select</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_df_select</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="s2">&quot;Sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">train_df_select</span> <span class="o">=</span> <span class="n">train_df_select</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s2">&quot;Sex&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">})</span>
+<span class="n">train_df_select</span><span class="p">[[</span><span class="s2">&quot;Sex&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>891 rows × 1 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df_select</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_df_select</span><span class="p">[</span><span class="s2">&quot;Embarked&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;Embarked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">train_df_select</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_df_select</span><span class="p">[</span><span class="s2">&quot;Embarked&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;Embarked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">train_df_select</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_df_select</span><span class="p">[</span><span class="s2">&quot;Embarked&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Q&quot;</span><span class="p">,</span> <span class="s2">&quot;Embarked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">train_df_select</span> <span class="o">=</span> <span class="n">train_df_select</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Embarked&quot;</span><span class="p">])</span>
+<span class="n">train_df_select</span> <span class="o">=</span> <span class="n">train_df_select</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s2">&quot;Embarked&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">})</span>
+<span class="n">train_df_select</span><span class="p">[[</span><span class="s2">&quot;Embarked&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>861</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>862</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>863</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>864</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>865</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>866</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>867</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>868</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>869</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>870</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>871</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>872</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>873</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>874</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>875</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>876</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>877</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>878</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>879</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>880</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>881</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>882</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>883</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>884</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>885</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>886</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>887</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>888</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>889</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>890</th>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+<p>889 rows × 1 columns</p>
+</div></div>
+</div>
+<p>とりあえずNaNの含まれるレコードを消して，相関を算出できるデータのみを取り出す</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df_select_drop</span> <span class="o">=</span> <span class="n">train_df_select</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">train_df_select_drop</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 183 entries, 1 to 889
+Data columns (total 12 columns):
+PassengerId    183 non-null int64
+Survived       183 non-null int64
+Pclass         183 non-null int64
+Name           183 non-null object
+Sex            183 non-null int64
+Age            183 non-null float64
+SibSp          183 non-null int64
+Parch          183 non-null int64
+Ticket         183 non-null object
+Fare           183 non-null float64
+Cabin          183 non-null object
+Embarked       183 non-null int64
+dtypes: float64(2), int64(7), object(3)
+memory usage: 18.6+ KB
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df_select_drop</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PassengerId</th>
+      <td>1.000000</td>
+      <td>0.148495</td>
+      <td>-0.089136</td>
+      <td>0.025205</td>
+      <td>0.030933</td>
+      <td>-0.083488</td>
+      <td>-0.051454</td>
+      <td>0.029740</td>
+      <td>-0.054246</td>
+    </tr>
+    <tr>
+      <th>Survived</th>
+      <td>0.148495</td>
+      <td>1.000000</td>
+      <td>-0.034542</td>
+      <td>0.532418</td>
+      <td>-0.254085</td>
+      <td>0.106346</td>
+      <td>0.023582</td>
+      <td>0.134241</td>
+      <td>0.083231</td>
+    </tr>
+    <tr>
+      <th>Pclass</th>
+      <td>-0.089136</td>
+      <td>-0.034542</td>
+      <td>1.000000</td>
+      <td>0.046181</td>
+      <td>-0.306514</td>
+      <td>-0.103592</td>
+      <td>0.047496</td>
+      <td>-0.315235</td>
+      <td>-0.235027</td>
+    </tr>
+    <tr>
+      <th>Sex</th>
+      <td>0.025205</td>
+      <td>0.532418</td>
+      <td>0.046181</td>
+      <td>1.000000</td>
+      <td>-0.184969</td>
+      <td>0.104291</td>
+      <td>0.089581</td>
+      <td>0.130433</td>
+      <td>0.060862</td>
+    </tr>
+    <tr>
+      <th>Age</th>
+      <td>0.030933</td>
+      <td>-0.254085</td>
+      <td>-0.306514</td>
+      <td>-0.184969</td>
+      <td>1.000000</td>
+      <td>-0.156162</td>
+      <td>-0.271271</td>
+      <td>-0.092424</td>
+      <td>0.088112</td>
+    </tr>
+    <tr>
+      <th>SibSp</th>
+      <td>-0.083488</td>
+      <td>0.106346</td>
+      <td>-0.103592</td>
+      <td>0.104291</td>
+      <td>-0.156162</td>
+      <td>1.000000</td>
+      <td>0.255346</td>
+      <td>0.286433</td>
+      <td>0.015962</td>
+    </tr>
+    <tr>
+      <th>Parch</th>
+      <td>-0.051454</td>
+      <td>0.023582</td>
+      <td>0.047496</td>
+      <td>0.089581</td>
+      <td>-0.271271</td>
+      <td>0.255346</td>
+      <td>1.000000</td>
+      <td>0.389740</td>
+      <td>-0.097495</td>
+    </tr>
+    <tr>
+      <th>Fare</th>
+      <td>0.029740</td>
+      <td>0.134241</td>
+      <td>-0.315235</td>
+      <td>0.130433</td>
+      <td>-0.092424</td>
+      <td>0.286433</td>
+      <td>0.389740</td>
+      <td>1.000000</td>
+      <td>0.233452</td>
+    </tr>
+    <tr>
+      <th>Embarked</th>
+      <td>-0.054246</td>
+      <td>0.083231</td>
+      <td>-0.235027</td>
+      <td>0.060862</td>
+      <td>0.088112</td>
+      <td>0.015962</td>
+      <td>-0.097495</td>
+      <td>0.233452</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">config</span> InlineBackend.figure_formats = {&#39;png&#39;, &#39;retina&#39;}
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">train_df_select_drop</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu_r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[19]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x10aa3bc88&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Python02_40_1.png" src="_images/Python02_40_1.png" />
+</div>
+</div>
+<div class="line-block">
+<div class="line">Sex &gt; Age &gt; Fare &gt; SibSp &gt; Embarked &gt; Pclass &gt; Parch
+の順にSurvivedと相関（の絶対値）が高い</div>
+<div class="line">ただし，EmbarkedとPclassは名義尺度なので注意</div>
+<div class="line"><a class="reference external" href="https://mathwords.net/syakudo">https://mathwords.net/syakudo</a> より</div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="27%" />
+<col width="24%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>尺度</td>
+<td>例</td>
+<td>大小比較</td>
+<td>差</td>
+<td>比</td>
+</tr>
+<tr class="row-even"><td>名義尺度</td>
+<td>電話番号</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr class="row-odd"><td>順序尺度</td>
+<td>震度</td>
+<td>○</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr class="row-even"><td>間隔尺度</td>
+<td>温度（℃）</td>
+<td>○</td>
+<td>○</td>
+<td>×</td>
+</tr>
+<tr class="row-odd"><td>比率尺度</td>
+<td>長さ</td>
+<td>○</td>
+<td>○</td>
+<td>○</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="分布を見る">
+<h4>分布を見る<a class="headerlink" href="#分布を見る" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">train_df_select</span><span class="p">[[</span><span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="s1">&#39;Survived&#39;</span><span class="p">]],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Survived&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[20]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;seaborn.axisgrid.PairGrid at 0x10ab174a8&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Python02_43_1.png" src="_images/Python02_43_1.png" />
+</div>
+</div>
+<p>Femaleのほうが生存率が高い</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">train_df_select</span><span class="p">[[</span><span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s1">&#39;Survived&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Survived&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[21]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;seaborn.axisgrid.PairGrid at 0x10b8e34e0&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Python02_45_1.png" src="_images/Python02_45_1.png" />
+</div>
+</div>
+<div class="line-block">
+<div class="line">お年寄りはだいたい亡くなっている</div>
+<div class="line">幼児の生存率は高い</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">train_df_select</span><span class="p">[[</span><span class="s2">&quot;Pclass&quot;</span><span class="p">,</span> <span class="s1">&#39;Survived&#39;</span><span class="p">]],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Survived&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[22]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;seaborn.axisgrid.PairGrid at 0x10c3ab2b0&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Python02_47_1.png" src="_images/Python02_47_1.png" />
+</div>
+</div>
+<p>1&gt;2&gt;3等の順で生存率が高い</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">train_df_select</span><span class="p">[[</span><span class="s2">&quot;Fare&quot;</span><span class="p">,</span> <span class="s1">&#39;Survived&#39;</span><span class="p">]],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Survived&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[23]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;seaborn.axisgrid.PairGrid at 0x10bcd70f0&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Python02_49_1.png" src="_images/Python02_49_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">train_df_select</span><span class="p">[[</span><span class="s2">&quot;Embarked&quot;</span><span class="p">,</span> <span class="s1">&#39;Survived&#39;</span><span class="p">]],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Survived&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[24]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;seaborn.axisgrid.PairGrid at 0x10c70a400&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Python02_50_1.png" src="_images/Python02_50_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">train_df_select</span><span class="p">[[</span><span class="s2">&quot;SibSp&quot;</span><span class="p">,</span> <span class="s1">&#39;Survived&#39;</span><span class="p">]],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Survived&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[25]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;seaborn.axisgrid.PairGrid at 0x10de8f898&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Python02_51_1.png" src="_images/Python02_51_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">train_df_select</span><span class="p">[[</span><span class="s2">&quot;Parch&quot;</span><span class="p">,</span> <span class="s1">&#39;Survived&#39;</span><span class="p">]],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Survived&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[26]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;seaborn.axisgrid.PairGrid at 0x10e523ef0&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Python02_52_1.png" src="_images/Python02_52_1.png" />
+</div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="2.予測モデルの作成・学習">
+<h3>2.予測モデルの作成・学習<a class="headerlink" href="#2.予測モデルの作成・学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv&quot;</span><span class="p">)</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/test.csv&quot;</span><span class="p">)</span>
+<span class="n">train_df</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">test_df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[27]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>((891, 12), (418, 11))
+</pre></div>
+</div>
+</div>
+<div class="section" id="データの整理">
+<h4>データの整理<a class="headerlink" href="#データの整理" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="line-block">
+<div class="line">Pclass, Sex, Age, Fareのみで予測することにする</div>
+<div class="line">名義尺度はダミー変数化すべし</div>
+</div>
+<div class="figure" id="id26">
+<img alt="axis" src="https://i.stack.imgur.com/DL0iQ.jpg" />
+<p class="caption"><span class="caption-text">axis</span></p>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">all_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">train_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Survived&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">test_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">all_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">all_df</span><span class="p">[[</span><span class="s2">&quot;Pclass&quot;</span><span class="p">,</span> <span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;Fare&quot;</span><span class="p">]])</span>
+<span class="n">all_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>Fare</th>
+      <th>Sex_female</th>
+      <th>Sex_male</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>22.0</td>
+      <td>7.2500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>38.0</td>
+      <td>71.2833</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>26.0</td>
+      <td>7.9250</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>35.0</td>
+      <td>53.1000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>35.0</td>
+      <td>8.0500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3</td>
+      <td>NaN</td>
+      <td>8.4583</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>54.0</td>
+      <td>51.8625</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3</td>
+      <td>2.0</td>
+      <td>21.0750</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>3</td>
+      <td>27.0</td>
+      <td>11.1333</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2</td>
+      <td>14.0</td>
+      <td>30.0708</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>3</td>
+      <td>4.0</td>
+      <td>16.7000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1</td>
+      <td>58.0</td>
+      <td>26.5500</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>3</td>
+      <td>20.0</td>
+      <td>8.0500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>3</td>
+      <td>39.0</td>
+      <td>31.2750</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>3</td>
+      <td>14.0</td>
+      <td>7.8542</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2</td>
+      <td>55.0</td>
+      <td>16.0000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>3</td>
+      <td>2.0</td>
+      <td>29.1250</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2</td>
+      <td>NaN</td>
+      <td>13.0000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>3</td>
+      <td>31.0</td>
+      <td>18.0000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>3</td>
+      <td>NaN</td>
+      <td>7.2250</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2</td>
+      <td>35.0</td>
+      <td>26.0000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2</td>
+      <td>34.0</td>
+      <td>13.0000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>3</td>
+      <td>15.0</td>
+      <td>8.0292</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>1</td>
+      <td>28.0</td>
+      <td>35.5000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>3</td>
+      <td>8.0</td>
+      <td>21.0750</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>3</td>
+      <td>38.0</td>
+      <td>31.3875</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>3</td>
+      <td>NaN</td>
+      <td>7.2250</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>1</td>
+      <td>19.0</td>
+      <td>263.0000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>3</td>
+      <td>NaN</td>
+      <td>7.8792</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>3</td>
+      <td>NaN</td>
+      <td>7.8958</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>388</th>
+      <td>3</td>
+      <td>21.0</td>
+      <td>7.7500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>389</th>
+      <td>3</td>
+      <td>6.0</td>
+      <td>21.0750</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>390</th>
+      <td>1</td>
+      <td>23.0</td>
+      <td>93.5000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>391</th>
+      <td>1</td>
+      <td>51.0</td>
+      <td>39.4000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>392</th>
+      <td>3</td>
+      <td>13.0</td>
+      <td>20.2500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>393</th>
+      <td>2</td>
+      <td>47.0</td>
+      <td>10.5000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>394</th>
+      <td>3</td>
+      <td>29.0</td>
+      <td>22.0250</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>1</td>
+      <td>18.0</td>
+      <td>60.0000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>3</td>
+      <td>24.0</td>
+      <td>7.2500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>1</td>
+      <td>48.0</td>
+      <td>79.2000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>3</td>
+      <td>22.0</td>
+      <td>7.7750</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>3</td>
+      <td>31.0</td>
+      <td>7.7333</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>400</th>
+      <td>1</td>
+      <td>30.0</td>
+      <td>164.8667</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>401</th>
+      <td>2</td>
+      <td>38.0</td>
+      <td>21.0000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>402</th>
+      <td>1</td>
+      <td>22.0</td>
+      <td>59.4000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>403</th>
+      <td>1</td>
+      <td>17.0</td>
+      <td>47.1000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>404</th>
+      <td>1</td>
+      <td>43.0</td>
+      <td>27.7208</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>405</th>
+      <td>2</td>
+      <td>20.0</td>
+      <td>13.8625</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>406</th>
+      <td>2</td>
+      <td>23.0</td>
+      <td>10.5000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>407</th>
+      <td>1</td>
+      <td>50.0</td>
+      <td>211.5000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>408</th>
+      <td>3</td>
+      <td>NaN</td>
+      <td>7.7208</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>409</th>
+      <td>3</td>
+      <td>3.0</td>
+      <td>13.7750</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>410</th>
+      <td>3</td>
+      <td>NaN</td>
+      <td>7.7500</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>411</th>
+      <td>1</td>
+      <td>37.0</td>
+      <td>90.0000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>412</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>7.7750</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>413</th>
+      <td>3</td>
+      <td>NaN</td>
+      <td>8.0500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>414</th>
+      <td>1</td>
+      <td>39.0</td>
+      <td>108.9000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>415</th>
+      <td>3</td>
+      <td>38.5</td>
+      <td>7.2500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>416</th>
+      <td>3</td>
+      <td>NaN</td>
+      <td>8.0500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>417</th>
+      <td>3</td>
+      <td>NaN</td>
+      <td>22.3583</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>1309 rows × 5 columns</p>
+</div></div>
+</div>
+<p>groupby（集約関数）という便利機能</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">all_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Pclass&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Fare</th>
+      <th>Sex_female</th>
+      <th>Sex_male</th>
+    </tr>
+    <tr>
+      <th>Pclass</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>39.159930</td>
+      <td>87.508992</td>
+      <td>0.445820</td>
+      <td>0.554180</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>29.506705</td>
+      <td>21.179196</td>
+      <td>0.382671</td>
+      <td>0.617329</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>24.816367</td>
+      <td>13.302889</td>
+      <td>0.304654</td>
+      <td>0.695346</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>groupbyで欠損値の傾向を確認する</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">missing</span> <span class="o">=</span> <span class="n">all_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">missing</span> <span class="o">=</span> <span class="n">missing</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">missing</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">missing</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[30]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>0</th>
+    </tr>
+    <tr>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>Fare</th>
+      <th>Sex_female</th>
+      <th>Sex_male</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">False</th>
+      <th rowspan="2" valign="top">False</th>
+      <th>False</th>
+      <th>False</th>
+      <th>False</th>
+      <td>1045</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <th>False</th>
+      <th>False</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>True</th>
+      <th>False</th>
+      <th>False</th>
+      <th>False</th>
+      <td>263</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="line-block">
+<div class="line">欠損値をどうにかする（捨てる，置き換える，補う）方法はいろいろある</div>
+<div class="line">今回は単純に中央値を当てはめてみることにする．</div>
+</div>
+<p><a class="reference external" href="http://sinhrks.hatenablog.com/entry/2016/02/01/080859#欠損値">Python pandas
+欠損値/外れ値/離散化の処理</a></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>リストワイズ法</td>
+<td>欠損レコードを除去</td>
+</tr>
+<tr class="row-even"><td>ペアワイズ法</td>
+<td>相関係数など2変数を用いて計算を行う際に、 対象の変数が欠損している場合に計算対象から除外</td>
+</tr>
+<tr class="row-odd"><td>平均代入法</td>
+<td>欠損を持つ変数の平均値を補完</td>
+</tr>
+<tr class="row-even"><td>回帰代入法</td>
+<td>欠損を持つ変数の値を回帰式をもとに補完</td>
+</tr>
+</tbody>
+</table>
+<p>確率的回帰代入法，完全情報最尤推定法，多重代入法などなど</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">all_df</span> <span class="o">=</span> <span class="n">all_df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">all_df</span><span class="o">.</span><span class="n">median</span><span class="p">())</span>
+<span class="n">all_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[31]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>Fare</th>
+      <th>Sex_female</th>
+      <th>Sex_male</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>22.0</td>
+      <td>7.2500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>38.0</td>
+      <td>71.2833</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>26.0</td>
+      <td>7.9250</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>35.0</td>
+      <td>53.1000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>35.0</td>
+      <td>8.0500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>8.4583</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>54.0</td>
+      <td>51.8625</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3</td>
+      <td>2.0</td>
+      <td>21.0750</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>3</td>
+      <td>27.0</td>
+      <td>11.1333</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2</td>
+      <td>14.0</td>
+      <td>30.0708</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>3</td>
+      <td>4.0</td>
+      <td>16.7000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1</td>
+      <td>58.0</td>
+      <td>26.5500</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>3</td>
+      <td>20.0</td>
+      <td>8.0500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>3</td>
+      <td>39.0</td>
+      <td>31.2750</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>3</td>
+      <td>14.0</td>
+      <td>7.8542</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2</td>
+      <td>55.0</td>
+      <td>16.0000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>3</td>
+      <td>2.0</td>
+      <td>29.1250</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2</td>
+      <td>28.0</td>
+      <td>13.0000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>3</td>
+      <td>31.0</td>
+      <td>18.0000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>7.2250</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2</td>
+      <td>35.0</td>
+      <td>26.0000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2</td>
+      <td>34.0</td>
+      <td>13.0000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>3</td>
+      <td>15.0</td>
+      <td>8.0292</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>1</td>
+      <td>28.0</td>
+      <td>35.5000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>3</td>
+      <td>8.0</td>
+      <td>21.0750</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>3</td>
+      <td>38.0</td>
+      <td>31.3875</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>7.2250</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>1</td>
+      <td>19.0</td>
+      <td>263.0000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>7.8792</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>7.8958</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>388</th>
+      <td>3</td>
+      <td>21.0</td>
+      <td>7.7500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>389</th>
+      <td>3</td>
+      <td>6.0</td>
+      <td>21.0750</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>390</th>
+      <td>1</td>
+      <td>23.0</td>
+      <td>93.5000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>391</th>
+      <td>1</td>
+      <td>51.0</td>
+      <td>39.4000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>392</th>
+      <td>3</td>
+      <td>13.0</td>
+      <td>20.2500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>393</th>
+      <td>2</td>
+      <td>47.0</td>
+      <td>10.5000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>394</th>
+      <td>3</td>
+      <td>29.0</td>
+      <td>22.0250</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>1</td>
+      <td>18.0</td>
+      <td>60.0000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>3</td>
+      <td>24.0</td>
+      <td>7.2500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>1</td>
+      <td>48.0</td>
+      <td>79.2000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>3</td>
+      <td>22.0</td>
+      <td>7.7750</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>3</td>
+      <td>31.0</td>
+      <td>7.7333</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>400</th>
+      <td>1</td>
+      <td>30.0</td>
+      <td>164.8667</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>401</th>
+      <td>2</td>
+      <td>38.0</td>
+      <td>21.0000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>402</th>
+      <td>1</td>
+      <td>22.0</td>
+      <td>59.4000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>403</th>
+      <td>1</td>
+      <td>17.0</td>
+      <td>47.1000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>404</th>
+      <td>1</td>
+      <td>43.0</td>
+      <td>27.7208</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>405</th>
+      <td>2</td>
+      <td>20.0</td>
+      <td>13.8625</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>406</th>
+      <td>2</td>
+      <td>23.0</td>
+      <td>10.5000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>407</th>
+      <td>1</td>
+      <td>50.0</td>
+      <td>211.5000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>408</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>7.7208</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>409</th>
+      <td>3</td>
+      <td>3.0</td>
+      <td>13.7750</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>410</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>7.7500</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>411</th>
+      <td>1</td>
+      <td>37.0</td>
+      <td>90.0000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>412</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>7.7750</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>413</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>8.0500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>414</th>
+      <td>1</td>
+      <td>39.0</td>
+      <td>108.9000</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>415</th>
+      <td>3</td>
+      <td>38.5</td>
+      <td>7.2500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>416</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>8.0500</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>417</th>
+      <td>3</td>
+      <td>28.0</td>
+      <td>22.3583</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>1309 rows × 5 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">all_df</span><span class="p">[:</span><span class="n">train_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">all_df</span><span class="p">[</span><span class="n">train_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:]</span>
+<span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[32]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>((891, 5), (418, 5))
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">t_train</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">values</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="scikit-learn">
+<h4>scikit-learn<a class="headerlink" href="#scikit-learn" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="line-block">
+<div class="line"><img alt="Scikit" src="http://scikit-learn.org/stable/_static/scikit-learn-logo-small.png" /></div>
+<div class="line">Pythonで最もメンテナンスされている機械学習ライブラリ．</div>
+<div class="line">わかりやすいAPIと豊富な機能が売り．</div>
+</div>
+<div class="line-block">
+<div class="line"><img alt="Cheat" src="http://scikit-learn.org/stable/_static/ml_map.png" /></div>
+<div class="line">膨大な手法があるので，このチートシートを頼りにどれを使うかの参考にするといい．</div>
+<div class="line">この図に載っているのはごく一部だけれど．</div>
+</div>
+</div>
+<div class="section" id="決定木で予測">
+<h4>決定木で予測<a class="headerlink" href="#決定木で予測" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sklearn.tree</span>
+<span class="n">clf_decision_tree</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">clf_decision_tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[35]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>DecisionTreeClassifier(class_weight=None, criterion=&#39;gini&#39;, max_depth=2,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, presort=False, random_state=0,
+            splitter=&#39;best&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">y_train</span> <span class="o">=</span> <span class="n">clf_decision_tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="n">y_train</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[36]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>array([0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+       0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+       0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0,
+       1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0,
+       1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0,
+       1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+       0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0,
+       0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0,
+       0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0,
+       1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0,
+       1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+       0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+       0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0,
+       0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0,
+       0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0,
+       1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1,
+       0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0,
+       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1,
+       0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
+       0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0,
+       1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0])
+</pre></div>
+</div>
+</div>
+<p>accuracy（正解数÷データ数）はライブラリを使うまでもないですが</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="nb">sum</span><span class="p">(</span><span class="n">t_train</span> <span class="o">==</span> <span class="n">y_train</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[37]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>0.79573512906846244
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[38]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>0.79573512906846244
+</pre></div>
+</div>
+</div>
+<p>長いimportはこれで短縮（名前空間を汚染するので諸刃の剣）</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">accuracy_score</span>
+<span class="n">accuracy_score</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[39]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>0.79573512906846244
+</pre></div>
+</div>
+</div>
+<p>クラス数が多い分類はconfusion matrixを見ると傾向がつかみやすい</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">confusion_matrix</span>
+<span class="n">confusion_matrix</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[40]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>array([[532,  17],
+       [165, 177]])
+</pre></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">横軸が正解，縦軸が予測値．</div>
+<div class="line">（左上）個が正しく死亡と判定，（左下）個が誤って死亡と判定</div>
+<div class="line">（右上）個が誤って生存と判定，（右下）個が正しく生存と判定</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">classification_report</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+             precision    recall  f1-score   support
+
+          0       0.76      0.97      0.85       549
+          1       0.91      0.52      0.66       342
+
+avg / total       0.82      0.80      0.78       891
+
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="決定木の可視化">
+<h4>決定木の可視化<a class="headerlink" href="#決定木の可視化" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>graphvizを別途インストールしていないと動きません^^;</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pydotplus</span>
+<span class="kn">from</span> <span class="nn">sklearn.externals.six</span> <span class="k">import</span> <span class="n">StringIO</span>
+<span class="n">dot_data</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+<span class="n">sklearn</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">export_graphviz</span><span class="p">(</span><span class="n">clf_decision_tree</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="n">dot_data</span>
+                     <span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">pydotplus</span><span class="o">.</span><span class="n">graph_from_dot_data</span><span class="p">(</span><span class="n">dot_data</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+
+<span class="c1"># PDFファイルに出力</span>
+<span class="c1"># graph.write_pdf(&quot;graph.pdf&quot;)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">create_png</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[43]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Python02_85_0.png" src="_images/Python02_85_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Random-Forestで予測">
+<h4>Random Forestで予測<a class="headerlink" href="#Random-Forestで予測" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="line-block">
+<div class="line">Random Forestは欠損値に強い，次元数の多さに強い</div>
+<div class="line">木が十分な数なら過学習しない（？）</div>
+<div class="line">OOBエラーによる評価なのでCross Varidation要らず（？）</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestClassifier</span>
+<span class="c1"># n_estimatorは木の数</span>
+<span class="n">clf_random_forest</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">clf_random_forest</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[45]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>RandomForestClassifier(bootstrap=True, class_weight=None, criterion=&#39;gini&#39;,
+            max_depth=None, max_features=&#39;auto&#39;, max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=100, n_jobs=1,
+            oob_score=False, random_state=0, verbose=0, warm_start=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">y_train</span> <span class="o">=</span> <span class="n">clf_random_forest</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.977553310887
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+             precision    recall  f1-score   support
+
+          0       0.98      0.99      0.98       549
+          1       0.98      0.96      0.97       342
+
+avg / total       0.98      0.98      0.98       891
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[541   8]
+ [ 12 330]]
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="3.予測モデルの評価">
+<h3>3.予測モデルの評価<a class="headerlink" href="#3.予測モデルの評価" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="line-block">
+<div class="line">何をもってよいモデルだとするかは問題設定による</div>
+<div class="line">accuracy？precision？recall？f1-score？</div>
+<div class="line">PR曲線のAUC？ROC曲線のAUC？</div>
+</div>
+<div class="section" id="モデルを良くする">
+<h4>モデルを良くする<a class="headerlink" href="#モデルを良くする" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<ul>
+<li><div class="first line-block">
+<div class="line">もっといいパラメータがあるのでは？</div>
+<div class="line">パラメータをいろいろ試す必要がある．→ Grid Search</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">他のデータでもうまく行く保証はあるのか？</div>
+<div class="line">過学習（overfitting） を防ぎたい＝汎化性能を高める．→ Cross
+Varidation</div>
+</div>
+</li>
+</ul>
+<p><img alt="Cross" src="https://image.slidesharecdn.com/random-150204215702-conversion-gate01/95/-54-1024.jpg" />
+<a class="reference external" href="https://www.slideshare.net/canard0328/ss-44288984">機械学習によるデータ分析まわりのお話</a>
+より</p>
+<p>両方skit-learnでできます！</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">SVC</span>
+<span class="n">tuned_parameters</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1e1</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">,</span> <span class="mf">1e4</span><span class="p">],</span>
+     <span class="s1">&#39;kernel&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;rbf&#39;</span><span class="p">],</span>
+     <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">]},</span>
+<span class="p">]</span>
+<span class="n">clf_SVC_cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span>
+    <span class="n">SVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">tuned_parameters</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">clf_SVC_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[50]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>GridSearchCV(cv=5, error_score=&#39;raise&#39;,
+       estimator=SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;auto&#39;, kernel=&#39;rbf&#39;,
+  max_iter=-1, probability=False, random_state=0, shrinking=True,
+  tol=0.001, verbose=False),
+       fit_params=None, iid=True, n_jobs=-1,
+       param_grid=[{&#39;C&#39;: [1, 10.0, 100.0, 1000.0, 10000.0], &#39;kernel&#39;: [&#39;rbf&#39;], &#39;gamma&#39;: [0.01, 0.001, 0.0001]}],
+       pre_dispatch=&#39;2*n_jobs&#39;, refit=True, return_train_score=True,
+       scoring=&#39;f1&#39;, verbose=0)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">clf_SVC_cv</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[51]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean_fit_time</th>
+      <th>mean_score_time</th>
+      <th>mean_test_score</th>
+      <th>mean_train_score</th>
+      <th>param_C</th>
+      <th>param_gamma</th>
+      <th>param_kernel</th>
+      <th>params</th>
+      <th>rank_test_score</th>
+      <th>split0_test_score</th>
+      <th>...</th>
+      <th>split2_test_score</th>
+      <th>split2_train_score</th>
+      <th>split3_test_score</th>
+      <th>split3_train_score</th>
+      <th>split4_test_score</th>
+      <th>split4_train_score</th>
+      <th>std_fit_time</th>
+      <th>std_score_time</th>
+      <th>std_test_score</th>
+      <th>std_train_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.022302</td>
+      <td>0.004612</td>
+      <td>0.500432</td>
+      <td>0.599439</td>
+      <td>1</td>
+      <td>0.01</td>
+      <td>rbf</td>
+      <td>{'C': 1, 'gamma': 0.01, 'kernel': 'rbf'}</td>
+      <td>12</td>
+      <td>0.348624</td>
+      <td>...</td>
+      <td>0.537037</td>
+      <td>0.581395</td>
+      <td>0.469388</td>
+      <td>0.593103</td>
+      <td>0.596491</td>
+      <td>0.565321</td>
+      <td>0.000882</td>
+      <td>0.000682</td>
+      <td>0.086323</td>
+      <td>0.025639</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.017771</td>
+      <td>0.003363</td>
+      <td>0.478282</td>
+      <td>0.498602</td>
+      <td>1</td>
+      <td>0.001</td>
+      <td>rbf</td>
+      <td>{'C': 1, 'gamma': 0.001, 'kernel': 'rbf'}</td>
+      <td>13</td>
+      <td>0.336283</td>
+      <td>...</td>
+      <td>0.509434</td>
+      <td>0.513636</td>
+      <td>0.437500</td>
+      <td>0.432836</td>
+      <td>0.563636</td>
+      <td>0.494172</td>
+      <td>0.000585</td>
+      <td>0.000074</td>
+      <td>0.083251</td>
+      <td>0.041543</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.015337</td>
+      <td>0.003225</td>
+      <td>0.373277</td>
+      <td>0.401322</td>
+      <td>1</td>
+      <td>0.0001</td>
+      <td>rbf</td>
+      <td>{'C': 1, 'gamma': 0.0001, 'kernel': 'rbf'}</td>
+      <td>15</td>
+      <td>0.222222</td>
+      <td>...</td>
+      <td>0.333333</td>
+      <td>0.368000</td>
+      <td>0.391304</td>
+      <td>0.354839</td>
+      <td>0.391304</td>
+      <td>0.381963</td>
+      <td>0.000719</td>
+      <td>0.000057</td>
+      <td>0.099299</td>
+      <td>0.047146</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.030071</td>
+      <td>0.002918</td>
+      <td>0.680114</td>
+      <td>0.808045</td>
+      <td>10</td>
+      <td>0.01</td>
+      <td>rbf</td>
+      <td>{'C': 10.0, 'gamma': 0.01, 'kernel': 'rbf'}</td>
+      <td>9</td>
+      <td>0.666667</td>
+      <td>...</td>
+      <td>0.676471</td>
+      <td>0.802239</td>
+      <td>0.638655</td>
+      <td>0.797794</td>
+      <td>0.733813</td>
+      <td>0.791128</td>
+      <td>0.003710</td>
+      <td>0.000044</td>
+      <td>0.030994</td>
+      <td>0.014921</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.023025</td>
+      <td>0.003189</td>
+      <td>0.696823</td>
+      <td>0.736891</td>
+      <td>10</td>
+      <td>0.001</td>
+      <td>rbf</td>
+      <td>{'C': 10.0, 'gamma': 0.001, 'kernel': 'rbf'}</td>
+      <td>7</td>
+      <td>0.671053</td>
+      <td>...</td>
+      <td>0.705036</td>
+      <td>0.739526</td>
+      <td>0.651163</td>
+      <td>0.758123</td>
+      <td>0.706767</td>
+      <td>0.719858</td>
+      <td>0.002123</td>
+      <td>0.000111</td>
+      <td>0.033928</td>
+      <td>0.012797</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.016498</td>
+      <td>0.003338</td>
+      <td>0.442728</td>
+      <td>0.442583</td>
+      <td>10</td>
+      <td>0.0001</td>
+      <td>rbf</td>
+      <td>{'C': 10.0, 'gamma': 0.0001, 'kernel': 'rbf'}</td>
+      <td>14</td>
+      <td>0.330275</td>
+      <td>...</td>
+      <td>0.421053</td>
+      <td>0.422680</td>
+      <td>0.458333</td>
+      <td>0.390501</td>
+      <td>0.453608</td>
+      <td>0.416452</td>
+      <td>0.001508</td>
+      <td>0.000120</td>
+      <td>0.070980</td>
+      <td>0.047659</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.115308</td>
+      <td>0.002867</td>
+      <td>0.685099</td>
+      <td>0.851002</td>
+      <td>100</td>
+      <td>0.01</td>
+      <td>rbf</td>
+      <td>{'C': 100.0, 'gamma': 0.01, 'kernel': 'rbf'}</td>
+      <td>8</td>
+      <td>0.652778</td>
+      <td>...</td>
+      <td>0.724638</td>
+      <td>0.851449</td>
+      <td>0.656000</td>
+      <td>0.843066</td>
+      <td>0.725926</td>
+      <td>0.845173</td>
+      <td>0.029387</td>
+      <td>0.000320</td>
+      <td>0.033026</td>
+      <td>0.006237</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.049189</td>
+      <td>0.002460</td>
+      <td>0.710631</td>
+      <td>0.771008</td>
+      <td>100</td>
+      <td>0.001</td>
+      <td>rbf</td>
+      <td>{'C': 100.0, 'gamma': 0.001, 'kernel': 'rbf'}</td>
+      <td>5</td>
+      <td>0.701987</td>
+      <td>...</td>
+      <td>0.724638</td>
+      <td>0.763158</td>
+      <td>0.645161</td>
+      <td>0.772313</td>
+      <td>0.755556</td>
+      <td>0.753731</td>
+      <td>0.009958</td>
+      <td>0.000300</td>
+      <td>0.036865</td>
+      <td>0.012765</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.041163</td>
+      <td>0.003029</td>
+      <td>0.704471</td>
+      <td>0.713795</td>
+      <td>100</td>
+      <td>0.0001</td>
+      <td>rbf</td>
+      <td>{'C': 100.0, 'gamma': 0.0001, 'kernel': 'rbf'}</td>
+      <td>6</td>
+      <td>0.733813</td>
+      <td>...</td>
+      <td>0.695652</td>
+      <td>0.719101</td>
+      <td>0.625000</td>
+      <td>0.724584</td>
+      <td>0.723077</td>
+      <td>0.711111</td>
+      <td>0.012930</td>
+      <td>0.000138</td>
+      <td>0.042910</td>
+      <td>0.007052</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.572957</td>
+      <td>0.002542</td>
+      <td>0.669756</td>
+      <td>0.870491</td>
+      <td>1000</td>
+      <td>0.01</td>
+      <td>rbf</td>
+      <td>{'C': 1000.0, 'gamma': 0.01, 'kernel': 'rbf'}</td>
+      <td>10</td>
+      <td>0.652778</td>
+      <td>...</td>
+      <td>0.704225</td>
+      <td>0.862816</td>
+      <td>0.638655</td>
+      <td>0.866667</td>
+      <td>0.696296</td>
+      <td>0.871324</td>
+      <td>0.242091</td>
+      <td>0.000094</td>
+      <td>0.025698</td>
+      <td>0.005719</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0.311519</td>
+      <td>0.002486</td>
+      <td>0.715629</td>
+      <td>0.794218</td>
+      <td>1000</td>
+      <td>0.001</td>
+      <td>rbf</td>
+      <td>{'C': 1000.0, 'gamma': 0.001, 'kernel': 'rbf'}</td>
+      <td>2</td>
+      <td>0.716216</td>
+      <td>...</td>
+      <td>0.716418</td>
+      <td>0.785441</td>
+      <td>0.672131</td>
+      <td>0.788104</td>
+      <td>0.779412</td>
+      <td>0.780037</td>
+      <td>0.082325</td>
+      <td>0.000140</td>
+      <td>0.035728</td>
+      <td>0.013975</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0.174307</td>
+      <td>0.003853</td>
+      <td>0.712710</td>
+      <td>0.722426</td>
+      <td>1000</td>
+      <td>0.0001</td>
+      <td>rbf</td>
+      <td>{'C': 1000.0, 'gamma': 0.0001, 'kernel': 'rbf'}</td>
+      <td>4</td>
+      <td>0.739130</td>
+      <td>...</td>
+      <td>0.705882</td>
+      <td>0.722117</td>
+      <td>0.645161</td>
+      <td>0.738806</td>
+      <td>0.723077</td>
+      <td>0.716981</td>
+      <td>0.075424</td>
+      <td>0.002672</td>
+      <td>0.036903</td>
+      <td>0.008729</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>4.124018</td>
+      <td>0.001604</td>
+      <td>0.649124</td>
+      <td>0.888971</td>
+      <td>10000</td>
+      <td>0.01</td>
+      <td>rbf</td>
+      <td>{'C': 10000.0, 'gamma': 0.01, 'kernel': 'rbf'}</td>
+      <td>11</td>
+      <td>0.638298</td>
+      <td>...</td>
+      <td>0.686567</td>
+      <td>0.881481</td>
+      <td>0.611570</td>
+      <td>0.890130</td>
+      <td>0.656489</td>
+      <td>0.887218</td>
+      <td>1.239600</td>
+      <td>0.000048</td>
+      <td>0.024471</td>
+      <td>0.004438</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1.460751</td>
+      <td>0.001553</td>
+      <td>0.713517</td>
+      <td>0.814629</td>
+      <td>10000</td>
+      <td>0.001</td>
+      <td>rbf</td>
+      <td>{'C': 10000.0, 'gamma': 0.001, 'kernel': 'rbf'}</td>
+      <td>3</td>
+      <td>0.722222</td>
+      <td>...</td>
+      <td>0.729927</td>
+      <td>0.798479</td>
+      <td>0.650407</td>
+      <td>0.811111</td>
+      <td>0.770370</td>
+      <td>0.812386</td>
+      <td>0.218736</td>
+      <td>0.000039</td>
+      <td>0.039692</td>
+      <td>0.010188</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0.505528</td>
+      <td>0.002130</td>
+      <td>0.724973</td>
+      <td>0.755406</td>
+      <td>10000</td>
+      <td>0.0001</td>
+      <td>rbf</td>
+      <td>{'C': 10000.0, 'gamma': 0.0001, 'kernel': 'rbf'}</td>
+      <td>1</td>
+      <td>0.753425</td>
+      <td>...</td>
+      <td>0.720588</td>
+      <td>0.756554</td>
+      <td>0.650407</td>
+      <td>0.769797</td>
+      <td>0.753846</td>
+      <td>0.726930</td>
+      <td>0.216026</td>
+      <td>0.000431</td>
+      <td>0.039189</td>
+      <td>0.015732</td>
+    </tr>
+  </tbody>
+</table>
+<p>15 rows × 23 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">clf_SVC_cv</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[52]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>{&#39;C&#39;: 10000.0, &#39;gamma&#39;: 0.0001, &#39;kernel&#39;: &#39;rbf&#39;}
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">clf_SVC_cv</span><span class="o">.</span><span class="n">best_score_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[53]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>0.72497257558382566
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">y_train</span> <span class="o">=</span> <span class="n">clf_SVC_cv</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+             precision    recall  f1-score   support
+
+          0       0.84      0.87      0.85       549
+          1       0.77      0.73      0.75       342
+
+avg / total       0.81      0.82      0.81       891
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.81593714927
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[476  73]
+ [ 91 251]]
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="モデルの保存">
+<h4>モデルの保存<a class="headerlink" href="#モデルの保存" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="line-block">
+<div class="line">pickleで保存してもいいが，ここではjoblibで保存することにする．</div>
+<div class="line">compressをつけておくと，本来は複数ファイルのモデルをひとまとめにできる．</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.externals</span> <span class="k">import</span> <span class="n">joblib</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">clf_SVC_cv</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,</span> <span class="s1">&#39;svc.pkl.cmp&#39;</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[57]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&#39;svc.pkl.cmp&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">!</span>ls
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Python01.ipynb     <span class="ansi-cyan-intense-fg ansi-bold">_templates</span>         predict_result.csv
+Python02.ipynb     conf.py            siritori.pkl
+<span class="ansi-cyan-intense-fg ansi-bold">_static</span>            index.rst          svc.pkl.cmp
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;svc.pkl.cmp&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">y_train</span> <span class="o">=</span> <span class="n">clf_SVC_cv</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">t_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.81593714927
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Kaggleへテストの結果を提出">
+<h4>Kaggleへテストの結果を提出<a class="headerlink" href="#Kaggleへテストの結果を提出" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>問題分を読んで回答に合う形式で提出</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">y_test</span> <span class="o">=</span> <span class="n">clf_SVC_cv</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;PassengerId&quot;</span><span class="p">:</span> <span class="n">test</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="s2">&quot;Survived&quot;</span><span class="p">:</span> <span class="n">y_test</span>
+<span class="p">})</span>
+<span class="n">result_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[62]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>6</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>8</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>9</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>10</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>11</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>12</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>13</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>14</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>15</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>16</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>17</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>18</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>19</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>20</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>21</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>22</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>23</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>24</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>25</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>26</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>27</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>28</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>29</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>388</th>
+      <td>388</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>389</th>
+      <td>389</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>390</th>
+      <td>390</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>391</th>
+      <td>391</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>392</th>
+      <td>392</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>393</th>
+      <td>393</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>394</th>
+      <td>394</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>395</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>396</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>397</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>398</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>399</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>400</th>
+      <td>400</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>401</th>
+      <td>401</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>402</th>
+      <td>402</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>403</th>
+      <td>403</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>404</th>
+      <td>404</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>405</th>
+      <td>405</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>406</th>
+      <td>406</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>407</th>
+      <td>407</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>408</th>
+      <td>408</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>409</th>
+      <td>409</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>410</th>
+      <td>410</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>411</th>
+      <td>411</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>412</th>
+      <td>412</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>413</th>
+      <td>413</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>414</th>
+      <td>414</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>415</th>
+      <td>415</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>416</th>
+      <td>416</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>417</th>
+      <td>417</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>418 rows × 2 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">result_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;predict_result.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">!</span>head predict_result.csv
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+PassengerId,Survived
+0,0
+1,1
+2,0
+3,0
+4,1
+5,0
+6,1
+7,0
+8,1
+</pre></div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="おわりに">
+<h2>おわりに<a class="headerlink" href="#おわりに" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="line-block">
+<div class="line">コンペ的にはここからがスタート，トライアンドエラーが基本．</div>
+<div class="line">最後にデータ分析における格言？を載せておきます．</div>
+</div>
+<div class="section" id="ノーフリーランチ定理">
+<h3>ノーフリーランチ定理<a class="headerlink" href="#ノーフリーランチ定理" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="line-block">
+<div class="line">ただ(=事前の知見なし)の飯(=予測や探索での改善)はない(no free lunch)」</div>
+<div class="line"><img alt="FreeLunch" src="https://upload.wikimedia.org/wikipedia/ja/f/f2/NoFreeLunch.gif" /></div>
+</div>
+</div>
+<div class="section" id="醜いアヒルの子の定理">
+<h3>醜いアヒルの子の定理<a class="headerlink" href="#醜いアヒルの子の定理" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="line-block">
+<div class="line">特徴量を同等に扱っていれば，アヒルの子とガチョウの子の類似度はアヒルの子同士の類似度と同じ．</div>
+<div class="line">あらゆる特徴を使うのではなく，目的あった特徴を選ぶべき．</div>
+<div class="line"><img alt="Duck" src="http://images.slideplayer.com/20/6219656/slides/slide_28.jpg" /></div>
+</div>
+</div>
+<div class="section" id="見せかけの回帰">
+<h3>見せかけの回帰<a class="headerlink" href="#見せかけの回帰" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="line-block">
+<div class="line">シミュレーションで発生させた互いに独立なランダムウォークを回帰したもの．</div>
+<div class="line">独立なのにも関わらず非常に高いt検定統計量の値となっている． <img alt="Spurious" src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Spurious_Regression.svg" /></div>
+</div>
+</div>
+<div class="section" id="テキサスの狙撃兵の誤謬（クラスター錯覚）">
+<h3>テキサスの狙撃兵の誤謬（クラスター錯覚）<a class="headerlink" href="#テキサスの狙撃兵の誤謬（クラスター錯覚）" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="line-block">
+<div class="line">納屋の壁に向かって何発も発砲した後で，最も弾痕が集中した箇所に標的を描き，</div>
+<div class="line">自分は狙撃兵（射撃の名手）だと主張するテキサス人がいたというジョーク．</div>
+<div class="line">仮説の構築と検証を同じデータで行ってはいけない．</div>
+<div class="line"><img alt="Texas" src="https://hilbertthm90.files.wordpress.com/2015/04/sharpshooter.png" /></div>
+</div>
+</div>
+<div class="section" id="ハンマー釘病">
+<h3>ハンマー釘病<a class="headerlink" href="#ハンマー釘病" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>If all you have is a hammer, Everything looks like a nail. <img alt="Hummer" src="http://www.sixhills-consulting.com/blog-wp/wp-content/uploads/2014/10/Hammer.png" /></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="Python01.html" class="btn btn-neutral" title="Python入門 〜基本文法編〜" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, A-lucky.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
