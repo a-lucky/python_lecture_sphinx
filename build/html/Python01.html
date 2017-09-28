@@ -137,6 +137,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#キーワード引数">キーワード引数</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#その他テク">その他テク</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#実行時間を確かめる">実行時間を確かめる</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#メモリ使用量を確かめる">メモリ使用量を確かめる</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#実行を一時停止する">実行を一時停止する</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#おわりに">おわりに</a></li>
@@ -438,7 +444,7 @@ Hello, Pythonic world!
 <div class="section" id="変数">
 <h3>変数<a class="headerlink" href="#変数" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="line-block">
-<div class="line">型は「ある」けど宣言時にいらない</div>
+<div class="line">変数には「型」がない， 値に「型」がある</div>
 <div class="line">変数自体はただの入れ物で，中身に種類があるイメージ</div>
 <div class="line">ちなみにPythonに定数はない</div>
 </div>
@@ -839,8 +845,8 @@ odd
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-4512824728
-4512824624
+4514509992
+4514512384
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1208,8 +1214,8 @@ apple + banana + peach + lemmon
 <div class="highlight"><pre>
 [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
 [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-4511190728
-4511190728
+4514647496
+4514647496
 </pre></div></div>
 </div>
 <div class="line-block">
@@ -1259,8 +1265,8 @@ apple + banana + peach + lemmon
 <div class="highlight"><pre>
 [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-4512800136
-4511190152
+4514691720
+4514645064
 </pre></div></div>
 </div>
 </div>
@@ -1862,7 +1868,7 @@ banana and peach
 <div class="highlight"><pre>
 [&#39;塩&#39;, &#39;胡椒&#39;, &#39;塩&#39;, &#39;砂糖&#39;, &#39;塩&#39;]
 &lt;class &#39;list&#39;&gt;
-{&#39;砂糖&#39;, &#39;胡椒&#39;, &#39;塩&#39;}
+{&#39;塩&#39;, &#39;砂糖&#39;, &#39;胡椒&#39;}
 &lt;class &#39;set&#39;&gt;
 </pre></div></div>
 </div>
@@ -2090,7 +2096,10 @@ banana and peach
 </pre></div>
 </div>
 </div>
-<p>ちなみにsortedを使うとリストでも辞書でもなんでもソートできる</p>
+<div class="line-block">
+<div class="line">ちなみにsortedを使うとリストでも辞書でもなんでもソートできる</div>
+<div class="line">（名前付き引数をつかっています）</div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [74]:
@@ -2294,20 +2303,20 @@ None
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-total 1640
-drwxr-xr-x  13 arakimm  staff     442  9 25 14:51 <span class="ansi-cyan-intense-fg ansi-bold">.</span>
-drwxr-xr-x   6 arakimm  staff     204  9 25 14:37 <span class="ansi-cyan-intense-fg ansi-bold">..</span>
--rw-r--r--@  1 arakimm  staff   10244  9 25 14:38 .DS_Store
-drwxr-xr-x   3 arakimm  staff     102  9 25 14:49 <span class="ansi-cyan-intense-fg ansi-bold">.ipynb_checkpoints</span>
--rw-r--r--   1 arakimm  staff   48785  9 25 14:13 Python01.ipynb
--rw-r--r--   1 arakimm  staff  746756  9 25 14:50 Python02.ipynb
+total 1648
+drwxr-xr-x  13 arakimm  staff     442  9 28 13:02 <span class="ansi-cyan-intense-fg ansi-bold">.</span>
+drwxr-xr-x  10 arakimm  staff     340  9 26 13:21 <span class="ansi-cyan-intense-fg ansi-bold">..</span>
+-rw-r--r--@  1 arakimm  staff   10244  9 25 16:09 .DS_Store
+drwxr-xr-x   4 arakimm  staff     136  9 25 14:52 <span class="ansi-cyan-intense-fg ansi-bold">.ipynb_checkpoints</span>
+-rw-r--r--   1 arakimm  staff   57910  9 28 13:02 Python01.ipynb
+-rw-r--r--   1 arakimm  staff  738600  9 25 15:16 Python02.ipynb
 drwxr-xr-x   2 arakimm  staff      68  9 25 14:25 <span class="ansi-cyan-intense-fg ansi-bold">_static</span>
 drwxr-xr-x   2 arakimm  staff      68  9 25 14:25 <span class="ansi-cyan-intense-fg ansi-bold">_templates</span>
 -rw-r--r--   1 arakimm  staff    5948  9 25 14:25 conf.py
 -rw-r--r--   1 arakimm  staff     386  9 25 14:45 index.rst
--rw-r--r--   1 arakimm  staff    2419  9 25 14:49 predict_result.csv
--rw-r--r--   1 arakimm  staff      72  9 25 14:51 siritori.pkl
--rw-r--r--   1 arakimm  staff    5027  9 25 14:49 svc.pkl.cmp
+-rw-r--r--   1 arakimm  staff    2419  9 25 15:16 predict_result.csv
+-rw-r--r--   1 arakimm  staff      72  9 28 13:03 siritori.pkl
+-rw-r--r--   1 arakimm  staff    5027  9 25 15:16 svc.pkl.cmp
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -2530,6 +2539,232 @@ drwxr-xr-x   2 arakimm  staff      68  9 25 14:25 <span class="ansi-cyan-intense
 </div>
 </div>
 </div>
+<div class="section" id="その他テク">
+<h3>その他テク<a class="headerlink" href="#その他テク" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="実行時間を確かめる">
+<h4>実行時間を確かめる<a class="headerlink" href="#実行時間を確かめる" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="line-block">
+<div class="line">プログラムが遅すぎると実験可能回数が減ってしまう</div>
+<div class="line">ボトルネックを確かめる方法として実行時間を測るという方法がある</div>
+<div class="line">jupyterではマジックコマンドを使って簡単に実行時間を測ることができる</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [93]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%%</span><span class="k">timeit</span>
+array = []
+for x in range(10000):
+    array.append(x)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1.1 ms ± 109 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [94]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%%</span><span class="k">timeit</span>
+array = [x for x in range(10000)]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+391 µs ± 46.6 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="メモリ使用量を確かめる">
+<h4>メモリ使用量を確かめる<a class="headerlink" href="#メモリ使用量を確かめる" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="line-block">
+<div class="line">時間計算量と空間計算量はたいていトレードオフ</div>
+<div class="line">メモリを食いすぎている変数がないか確かめることも大事</div>
+<div class="line">特にjupyterでは使用できるメモリがデフォルトでは限られている模様</div>
+<div class="line">（jupyter generate-configで検索と増やす方法が出るかも）</div>
+</div>
+<div class="line-block">
+<div class="line">正しいメモリ使用量を知るにはパッケージ等を導入する必要があるが，</div>
+<div class="line">jupyterのマジックコマンドで簡易的に変数の状態を知ることはできる</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [95]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [96]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">whos</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Variable           Type              Data/Info
+----------------------------------------------
+a                  str               5
+age                int               174
+alphabet           str               .
+alphabet_counter   defaultdict       defaultdict(&lt;class &#39;int&#39;&gt;&lt;...&gt; &#39;l&#39;: 1, &#39;s&#39;: 1, &#39;.&#39;: 1})
+array              list              n=10000
+average            function          &lt;function average at 0x10d1870d0&gt;
+b                  str               3
+c                  str               う
+copy_vec           list              n=10
+defaultdict        type              &lt;class &#39;collections.defaultdict&#39;&gt;
+double_dict        defaultdict       defaultdict(&lt;function &lt;la&lt;...&gt;&gt;, {&#39;花沢&#39;: &#39;フォローしていない&#39;})})
+empty              set               set()
+f                  BufferedReader    &lt;_io.BufferedReader name=&#39;siritori.pkl&#39;&gt;
+file               BufferedReader    &lt;_io.BufferedReader name=&#39;siritori.pkl&#39;&gt;
+flag               bool              True
+fruit              str               peach
+fruit1             str               banana
+fruit2             str               peach
+fruits             tuple             n=3
+i                  int               336
+info               function          &lt;function info at 0x10d20a2f0&gt;
+itertools          module            &lt;module &#39;itertools&#39; (built-in)&gt;
+j                  tuple             n=2
+lupin              str               x
+name               str               新島 襄
+name2age           dict              n=4
+numbers            list              n=10
+pack               tuple             n=3
+people             list              n=4
+person             str               佐藤
+pi                 float             3.141592653
+pickle             module            &lt;module &#39;pickle&#39; from &#39;/U&lt;...&gt;lib/python3.6/pickle.py&#39;&gt;
+pow                function          &lt;function pow at 0x10d20aae8&gt;
+result             str               odd
+s                  str               こんにちは
+seasoning          set               {&#39;塩&#39;, &#39;砂糖&#39;, &#39;胡椒&#39;}
+sentence           str               Peter Piper picked a peck of pickled peppers.
+set1               set               {&#39;B&#39;, &#39;C&#39;, &#39;A&#39;}
+set2               set               {&#39;B&#39;, &#39;C&#39;, &#39;D&#39;}
+siritori           dict              n=4
+siritori2          dict              n=4
+str_a              str               林檎スター
+str_b              str               林檎スター
+t                  str               世界
+val                int               4
+values             list              n=3
+x                  int               2017
+year               int               2000
+yoroshiku          int               4649
+zero_vec           list              n=10
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [97]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">del</span> <span class="n">array</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [98]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">whos</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Variable           Type              Data/Info
+----------------------------------------------
+a                  str               5
+age                int               174
+alphabet           str               .
+alphabet_counter   defaultdict       defaultdict(&lt;class &#39;int&#39;&gt;&lt;...&gt; &#39;l&#39;: 1, &#39;s&#39;: 1, &#39;.&#39;: 1})
+average            function          &lt;function average at 0x10d1870d0&gt;
+b                  str               3
+c                  str               う
+copy_vec           list              n=10
+defaultdict        type              &lt;class &#39;collections.defaultdict&#39;&gt;
+double_dict        defaultdict       defaultdict(&lt;function &lt;la&lt;...&gt;&gt;, {&#39;花沢&#39;: &#39;フォローしていない&#39;})})
+empty              set               set()
+f                  BufferedReader    &lt;_io.BufferedReader name=&#39;siritori.pkl&#39;&gt;
+file               BufferedReader    &lt;_io.BufferedReader name=&#39;siritori.pkl&#39;&gt;
+flag               bool              True
+fruit              str               peach
+fruit1             str               banana
+fruit2             str               peach
+fruits             tuple             n=3
+i                  int               336
+info               function          &lt;function info at 0x10d20a2f0&gt;
+itertools          module            &lt;module &#39;itertools&#39; (built-in)&gt;
+j                  tuple             n=2
+lupin              str               x
+name               str               新島 襄
+name2age           dict              n=4
+numbers            list              n=10
+pack               tuple             n=3
+people             list              n=4
+person             str               佐藤
+pi                 float             3.141592653
+pickle             module            &lt;module &#39;pickle&#39; from &#39;/U&lt;...&gt;lib/python3.6/pickle.py&#39;&gt;
+pow                function          &lt;function pow at 0x10d20aae8&gt;
+result             str               odd
+s                  str               こんにちは
+seasoning          set               {&#39;塩&#39;, &#39;砂糖&#39;, &#39;胡椒&#39;}
+sentence           str               Peter Piper picked a peck of pickled peppers.
+set1               set               {&#39;B&#39;, &#39;C&#39;, &#39;A&#39;}
+set2               set               {&#39;B&#39;, &#39;C&#39;, &#39;D&#39;}
+siritori           dict              n=4
+siritori2          dict              n=4
+str_a              str               林檎スター
+str_b              str               林檎スター
+t                  str               世界
+val                int               4
+values             list              n=3
+x                  int               2017
+year               int               2000
+yoroshiku          int               4649
+zero_vec           list              n=10
+</pre></div></div>
+</div>
+<p>その他マジックコマンドは%quickrefで確認できる</p>
+</div>
+<div class="section" id="実行を一時停止する">
+<h4>実行を一時停止する<a class="headerlink" href="#実行を一時停止する" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><a class="reference external" href="https://qiita.com/taise/items/063829ac89bf1def36d0">Pythonの実行中にインタラクティブシェルを起動する</a></p>
+</div>
+</div>
 </div>
 <div class="section" id="おわりに">
 <h2>おわりに<a class="headerlink" href="#おわりに" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -2545,7 +2780,7 @@ drwxr-xr-x   2 arakimm  staff      68  9 25 14:25 <span class="ansi-cyan-intense
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [93]:
+<span></span>In [99]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
