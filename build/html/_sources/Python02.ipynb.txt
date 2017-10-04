@@ -23,6 +23,7 @@
    "source": [
     "## Pandasとは  \n",
     "![Pandas](https://github.com/pandas-dev/pandas/raw/master/doc/logo/pandas_logo.png)\n",
+    "PANel DAtaSが名前の由来  \n",
     "もともと統計解析用のR言語で使われていた**data.frame**という表（テーブル)みたいな  \n",
     "データ形式をPythonに移植したモジュール（ライブラリ）  \n",
     "**jupyter**と組み合わせるとテーブルの中身を見ながら処理できるので最強  \n",
@@ -43,7 +44,7 @@
     "データ分析の世界的なコンペティションを行うWebサービス  \n",
     "ユーザーはお題に沿って最も性能の良いモデルを構築することを目的とする  \n",
     "賞金が出るお題もある  \n",
-    "\n",
+    "  \n",
     "今回はKaggleのチュートリアルに沿うことでデータ分析入門を目指す"
    ]
   },
@@ -89,7 +90,7 @@
     "女性，子供，1等船室の人々が生存確率が高かったことが知られている．  \n",
     "Dead or Aliveをデータからより正確に予測することはできるか？  \n",
     "いわゆる二値分類問題．  \n",
-    "\n",
+    "  \n",
     "※[A free interactive Machine Learning tutorial in Python](https://www.datacamp.com/courses/kaggle-python-tutorial-on-machine-learning)にインタラクティブなチュートリアルがあります"
    ]
   },
